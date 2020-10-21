@@ -1,6 +1,10 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     ext.kotlin_version = "1.4.10"
+
+    ext.githubProperties = new Properties()
+    ext.githubProperties.load(new FileInputStream(rootProject.file("github.properties")))
+
     repositories {
         google()
         jcenter()
@@ -16,6 +20,14 @@ buildscript {
 
 allprojects {
     repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/Banuba/banuba-ve-sdk")
+            credentials {
+                username = rootProject.ext.githubProperties['gpr.usr']
+                password = rootProject.ext.githubProperties['gpr.key']
+            }
+        }
         google()
         jcenter()
     }
